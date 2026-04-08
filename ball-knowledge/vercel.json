@@ -1,3 +1,10 @@
 {
-  "version": 2
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/fixtures", "destination": "/api/fixtures.js" },
+    { "source": "/api/standings", "destination": "/api/standings.js" },
+    { "source": "/api/scorers", "destination": "/api/scorers.js" },
+    { "source": "/api/leagues", "destination": "/api/leagues.js" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }

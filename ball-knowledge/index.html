@@ -11,21 +11,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
 
-<!-- GA4 placeholder — uncomment and add your ID -->
-<!--
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
-</script>
--->
-<!-- AdSense placeholder — uncomment once approved -->
-<!--
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
--->
-
 <style>
   :root {
     --primary: #AAFF00; --secondary: #16A34A;
@@ -44,10 +29,10 @@
 
   .nav { background: var(--bg); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; padding: 12px 0; }
   .nav-inner { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-  .logo { display: flex; align-items: center; gap: 10px; font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: var(--text); letter-spacing: 0.05em; }
-  .logo-mark { width: 32px; height: 32px; background: #000; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-weight: 700; font-size: 16px; font-family: 'DM Sans', sans-serif; }
-  .logo-mark .b { color: #fff; }
-  .logo-mark .k { color: var(--primary); }
+  .logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 0.08em; font-weight: 400; text-decoration: none; white-space: nowrap; }
+  .logo-text .ball { color: var(--text); }
+  .logo-text .knowledge { color: var(--primary); }
+  .logo-text:hover { text-decoration: none; opacity: 0.9; }
 
   .nav-right { display: flex; align-items: center; gap: 4px; }
   .nav-links { display: flex; gap: 4px; flex-wrap: wrap; }
@@ -63,6 +48,19 @@
   .page.active { display: block; }
   .page-title { font-size: 44px; margin-bottom: 4px; }
   .page-sub { color: var(--text-dim); margin-bottom: 24px; font-size: 14px; }
+
+  /* BIG home hero heading */
+  .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(54px, 10vw, 120px); letter-spacing: 0.04em; line-height: 0.95; margin: 16px 0 8px; text-align: center; }
+  .hero-title .ball { color: var(--text); }
+  .hero-title .knowledge { color: var(--primary); }
+  .hero-sub { text-align: center; color: var(--text-dim); font-size: 14px; margin-bottom: 24px; }
+
+  /* Big LIVE pill */
+  .live-pill-wrap { display: flex; justify-content: center; margin-bottom: 16px; }
+  .live-pill { display: inline-flex; align-items: center; gap: 10px; padding: 10px 20px; border-radius: 999px; background: var(--danger); color: #fff; font-weight: 700; font-size: 16px; letter-spacing: 0.05em; text-transform: uppercase; }
+  .live-pill::before { content: ''; width: 10px; height: 10px; background: #fff; border-radius: 50%; animation: pulse 1.2s infinite; }
+  .live-pill.off { background: var(--card); color: var(--text-dim); border: 1px solid var(--border); }
+  .live-pill.off::before { background: var(--text-dimmer); animation: none; }
 
   .card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 16px; }
   .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; gap: 12px; flex-wrap: wrap; }
@@ -105,16 +103,20 @@
   .league-body { display: none; background: #111; border: 1px solid var(--border); border-top: none; border-radius: 0 0 8px 8px; }
   .league-block.open .league-body { display: block; }
 
-  .fixture { display: grid; grid-template-columns: 60px 1fr auto 1fr; gap: 12px; padding: 12px 14px; align-items: center; border-top: 1px solid var(--border); font-size: 14px; cursor: pointer; transition: background 0.12s; }
+  /* NEW compact centred fixture layout */
+  .fixture { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 12px 14px; border-top: 1px solid var(--border); font-size: 14px; cursor: pointer; transition: background 0.12s; }
   .fixture:hover { background: rgba(170,255,0,0.04); }
   .fixture:first-child { border-top: none; }
-  .fx-time { color: var(--text-dim); font-size: 12px; font-weight: 500; text-align: center; }
+  .fx-time { color: var(--text-dim); font-size: 12px; font-weight: 500; min-width: 54px; text-align: center; flex-shrink: 0; }
   .fx-time.live { color: var(--danger); font-weight: 700; }
-  .fx-team { display: flex; align-items: center; gap: 8px; min-width: 0; }
-  .fx-team.away { justify-content: flex-end; flex-direction: row-reverse; }
-  .fx-team img { width: 20px; height: 20px; object-fit: contain; flex-shrink: 0; }
-  .fx-team .name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .fx-score { font-weight: 700; font-size: 15px; padding: 4px 10px; background: var(--bg); border-radius: 4px; min-width: 54px; text-align: center; white-space: nowrap; }
+  .fx-team { display: flex; align-items: center; gap: 8px; min-width: 0; flex: 0 1 auto; max-width: 40%; }
+  .fx-team.home { justify-content: flex-end; text-align: right; }
+  .fx-team.away { justify-content: flex-start; text-align: left; }
+  .fx-team.home .name { order: 1; }
+  .fx-team.home img { order: 2; }
+  .fx-team img { width: 22px; height: 22px; object-fit: contain; flex-shrink: 0; }
+  .fx-team .name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+  .fx-score { font-weight: 700; font-size: 15px; padding: 4px 10px; background: var(--bg); border-radius: 4px; min-width: 54px; text-align: center; white-space: nowrap; flex-shrink: 0; }
   .fx-score.pending { color: var(--text-dim); font-weight: 400; }
   .fx-score.live { color: var(--danger); }
 
@@ -145,6 +147,17 @@
   .scorer-stat.cards { color: #FCD34D; }
   .scorer-stat.reds { color: var(--danger); }
 
+  /* News: hero banner + grid */
+  .news-hero { display: block; background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 20px; color: var(--text); text-decoration: none; transition: border-color 0.15s, transform 0.15s; }
+  .news-hero:hover { border-color: var(--primary); transform: translateY(-2px); text-decoration: none; }
+  .news-hero-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 0; }
+  .news-hero img { width: 100%; height: 100%; min-height: 240px; max-height: 360px; object-fit: cover; background: var(--bg); }
+  .news-hero .body { padding: 24px; display: flex; flex-direction: column; gap: 10px; justify-content: center; }
+  .news-hero .tag { display: inline-block; align-self: flex-start; background: var(--primary); color: #000; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; }
+  .news-hero .title { font-size: clamp(20px, 2.4vw, 28px); font-weight: 700; line-height: 1.2; }
+  .news-hero .desc { color: var(--text-dim); font-size: 14px; line-height: 1.5; }
+  .news-hero .meta { color: var(--text-dimmer); font-size: 12px; margin-top: auto; }
+
   .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
   .news-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.15s, border-color 0.15s; }
   .news-card:hover { transform: translateY(-2px); border-color: var(--primary); }
@@ -156,7 +169,8 @@
   .news-desc { font-size: 13px; color: var(--text-dim); line-height: 1.45; }
   .news-date { font-size: 11px; color: var(--text-dimmer); margin-top: auto; }
 
-  .ad-slot { background: var(--card); border: 1px dashed var(--border); border-radius: 8px; padding: 20px; text-align: center; color: var(--text-dimmer); font-size: 12px; margin: 20px 0; min-height: 90px; display: flex; align-items: center; justify-content: center; }
+  .ad-slot { background: var(--card); border: 1px dashed var(--border); border-radius: 8px; padding: 20px; text-align: center; color: var(--text-dimmer); font-size: 12px; margin: 0 0 20px; min-height: 90px; display: flex; align-items: center; justify-content: center; }
+  .ad-slot.top { min-height: 120px; }
 
   .loading, .empty, .error { text-align: center; padding: 30px 20px; color: var(--text-dim); font-size: 14px; }
   .error { color: var(--danger); }
@@ -254,14 +268,18 @@
   @media (max-width: 640px) {
     .page-title { font-size: 34px; }
     .nav-inner { gap: 8px; }
-    .logo { font-size: 20px; }
+    .logo-text { font-size: 18px; }
     .nav-links { overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .nav-links::-webkit-scrollbar { display: none; }
-    .fixture { grid-template-columns: 54px 1fr auto 1fr; gap: 8px; font-size: 13px; }
+    .fixture { gap: 10px; font-size: 13px; padding: 12px 10px; }
     .fx-team .name { font-size: 13px; }
+    .fx-time { min-width: 44px; font-size: 11px; }
+    .fx-team img { width: 20px; height: 20px; }
     table.standings { font-size: 12px; }
     table.standings th, table.standings td { padding: 8px 4px; }
     .news-grid { grid-template-columns: 1fr; }
+    .news-hero-grid { grid-template-columns: 1fr; }
+    .news-hero img { min-height: 180px; max-height: 220px; }
     .match-scoreline { font-size: 36px; }
     .match-team img { width: 48px; height: 48px; }
   }
@@ -271,7 +289,7 @@
 
 <nav class="nav">
   <div class="nav-inner">
-    <a href="#home" class="logo"><span class="logo-mark"><span class="b">B</span><span class="k">K</span></span> Ball Knowledge</a>
+    <a href="#home" class="logo-text"><span class="ball">BALL</span> <span class="knowledge">KNOWLEDGE</span></a>
     <div class="nav-right">
       <div class="nav-links" id="nav-links">
         <a href="#home" class="nav-link" data-page="home">Home</a>
@@ -293,11 +311,18 @@
 <main class="container">
 
   <section id="page-home" class="page">
-    <h1 class="page-title">Today In Football</h1>
-    <p class="page-sub">Top competitions, live updates and the latest headlines.</p>
+    <h1 class="hero-title"><span class="ball">BALL</span> <span class="knowledge">KNOWLEDGE</span></h1>
+    <p class="hero-sub">Live scores · Fixtures · Standings · Stats · News</p>
+
+    <div class="live-pill-wrap" id="home-live-pill-wrap">
+      <span class="live-pill off" id="home-live-pill">No matches live right now</span>
+    </div>
+
+    <div class="ad-slot top">Advertisement</div>
+
     <div class="card">
       <div class="card-header">
-        <h2 class="card-title"><span id="home-live-badge" class="badge badge-live" style="display:none">LIVE</span> Top Competitions</h2>
+        <h2 class="card-title">Top Competitions</h2>
         <div class="tabs" id="home-date-tabs">
           <button class="tab" data-offset="-1">Yesterday</button>
           <button class="tab active" data-offset="0">Today</button>
@@ -306,7 +331,7 @@
       </div>
       <div id="home-fixtures"><div class="loading"><span class="spinner"></span></div></div>
     </div>
-    <div class="ad-slot">Advertisement</div>
+
     <div class="card">
       <div class="card-header">
         <h2 class="card-title">🔥 Hot News</h2>
@@ -371,6 +396,7 @@
       <button class="tab" data-query="Serie A">Serie A</button>
       <button class="tab" data-query="Ligue 1">Ligue 1</button>
     </div>
+    <div id="news-hero-slot"></div>
     <div id="news-grid" class="news-grid"><div class="loading"><span class="spinner"></span></div></div>
   </section>
 
@@ -417,11 +443,7 @@
 <footer class="footer">© <span id="year"></span> Ball Knowledge · Data from API-Football · News from GNews</footer>
 
 <script>
-/* ============================================================
-   CONFIG
-============================================================ */
 const SEASON = 2025;
-
 const TOP_LEAGUES = [
   { id: 2,   name: 'Champions League',   short: 'UCL',       abbrs: ['ucl','cl','champions'] },
   { id: 39,  name: 'Premier League',     short: 'EPL',       abbrs: ['epl','pl','prem','bpl'] },
@@ -445,36 +467,17 @@ const TOP_LEAGUES = [
 const TOP_LEAGUE_IDS = new Set(TOP_LEAGUES.map(l => l.id));
 const INTERNATIONAL_LABEL = 'UEFA & International';
 
-/* ============================================================
-   HELPERS
-============================================================ */
-const $ = (s, r=document) => r.querySelector(s);
-const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
-
-function escapeHtml(str) {
-  if (str == null) return '';
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
-function fmtDate(d) {
-  const y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), day=String(d.getDate()).padStart(2,'0');
-  return `${y}-${m}-${day}`;
-}
+const $ = (s,r=document) => r.querySelector(s);
+const $$ = (s,r=document) => Array.from(r.querySelectorAll(s));
+function escapeHtml(str) { if (str == null) return ''; return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function fmtDate(d) { const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0'); return `${y}-${m}-${day}`; }
 function dateFromOffset(o) { const d=new Date(); d.setDate(d.getDate()+o); return d; }
 function fmtTime(iso) { try { return new Date(iso).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}); } catch { return ''; } }
 function fmtRelDate(iso) { try { return new Date(iso).toLocaleString([],{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}); } catch { return ''; } }
 function isLiveStatus(s) { return ['1H','HT','2H','ET','BT','P','LIVE','INT'].includes(s); }
 function isFinishedStatus(s) { return ['FT','AET','PEN'].includes(s); }
+async function apiGet(path) { const res = await fetch(path); if (!res.ok) { const t = await res.text(); throw new Error(`API ${res.status}: ${t.slice(0,200)}`); } return res.json(); }
 
-async function apiGet(path) {
-  const res = await fetch(path);
-  if (!res.ok) { const t = await res.text(); throw new Error(`API ${res.status}: ${t.slice(0,200)}`); }
-  return res.json();
-}
-
-/* ============================================================
-   ROUTER
-============================================================ */
 const PAGES = ['home','fixtures','standings','stats','news'];
 function routeTo(page) {
   if (!PAGES.includes(page)) page = 'home';
@@ -490,9 +493,6 @@ function routeTo(page) {
 }
 window.addEventListener('hashchange', () => routeTo(location.hash.replace('#','') || 'home'));
 
-/* ============================================================
-   FIXTURE RENDERING
-============================================================ */
 function groupFixturesByLeague(fixtures) {
   const groups = new Map();
   for (const fx of fixtures) {
@@ -539,9 +539,6 @@ document.addEventListener('click', (e) => {
   if (fx && fx.dataset.fixtureId) openMatchModal(parseInt(fx.dataset.fixtureId, 10));
 });
 
-/* ============================================================
-   HOME
-============================================================ */
 let homeInited = false, homeDateOffset = 0;
 async function initHome() {
   if (homeInited) return;
@@ -555,7 +552,6 @@ async function initHome() {
   });
   loadHomeFixtures(); loadHomeNews();
 }
-
 async function loadHomeFixtures() {
   const c = $('#home-fixtures');
   c.innerHTML = '<div class="loading"><span class="spinner"></span></div>';
@@ -567,18 +563,21 @@ async function loadHomeFixtures() {
     const top = all.filter(fx => TOP_LEAGUE_IDS.has(fx.league.id));
     const live = all.filter(fx => isLiveStatus(fx.fixture.status.short));
     const countries = new Set(live.map(fx => fx.league.country).filter(Boolean));
-    const badge = $('#home-live-badge');
+    const pill = $('#home-live-pill');
     if (live.length > 0 && homeDateOffset === 0) {
       const cw = countries.size === 1 ? 'country' : 'countries';
-      badge.textContent = `${live.length} LIVE · ${countries.size} ${cw}`;
-      badge.style.display = 'inline-flex';
-    } else { badge.style.display = 'none'; }
+      pill.textContent = `${live.length} LIVE · ${countries.size} ${cw}`;
+      pill.classList.remove('off');
+    } else {
+      pill.textContent = homeDateOffset === 0 ? 'No matches live right now' : '';
+      pill.classList.add('off');
+      if (homeDateOffset !== 0) pill.style.display = 'none'; else pill.style.display = '';
+    }
     if (top.length === 0) { c.innerHTML = `<div class="empty">No top-competition fixtures for this date.</div>`; return; }
     const groups = groupFixturesByLeague(top);
     c.innerHTML = groups.map((g,i) => renderLeagueGroup(g, i < 3)).join('');
   } catch (err) { c.innerHTML = `<div class="error">Couldn't load fixtures. ${escapeHtml(err.message)}</div>`; }
 }
-
 async function loadHomeNews() {
   const c = $('#home-news');
   try {
@@ -589,11 +588,7 @@ async function loadHomeNews() {
   } catch (err) { c.innerHTML = `<div class="error">News unavailable. ${escapeHtml(err.message)}</div>`; }
 }
 
-/* ============================================================
-   FIXTURES
-============================================================ */
 let fixturesInited = false, fixturesDateOffset = 0, fixturesRaw = [];
-
 async function initFixtures() {
   if (!fixturesInited) {
     fixturesInited = true;
@@ -614,7 +609,6 @@ async function initFixtures() {
   }
   loadFixtures();
 }
-
 async function loadFixtures() {
   const c = $('#fixtures-list');
   c.innerHTML = '<div class="loading"><span class="spinner"></span></div>';
@@ -626,14 +620,12 @@ async function loadFixtures() {
     renderFixtures(fixturesRaw);
   } catch (err) { c.innerHTML = `<div class="error">Couldn't load fixtures. ${escapeHtml(err.message)}</div>`; }
 }
-
 function renderFixtures(list) {
   const c = $('#fixtures-list');
   if (list.length === 0) { c.innerHTML = `<div class="empty">No fixtures match.</div>`; return; }
   const groups = groupFixturesByLeague(list);
   c.innerHTML = groups.map(g => renderLeagueGroup(g, TOP_LEAGUE_IDS.has(g.id))).join('');
 }
-
 function filterFixtures() {
   const q = $('#fixtures-search').value.trim().toLowerCase();
   if (!q) return renderFixtures(fixturesRaw);
@@ -652,11 +644,7 @@ function filterFixtures() {
   renderFixtures(filtered);
 }
 
-/* ============================================================
-   STANDINGS
-============================================================ */
 let standingsInited = false, allLeaguesCache = null;
-
 async function fetchAllLeagues() {
   if (allLeaguesCache) return allLeaguesCache;
   try {
@@ -667,7 +655,6 @@ async function fetchAllLeagues() {
   } catch { allLeaguesCache = []; }
   return allLeaguesCache;
 }
-
 function initStandings() {
   if (standingsInited) return;
   standingsInited = true;
@@ -703,17 +690,13 @@ function initStandings() {
   input.value = 'Premier League';
   loadStandings(39);
 }
-
 async function loadStandings(leagueId) {
   const body = $('#standings-body');
   body.innerHTML = '<div class="loading"><span class="spinner"></span></div>';
   try {
     const data = await apiGet(`/api/standings?league=${leagueId}&season=${SEASON}`);
     const r = data.response || [];
-    if (r.length === 0 || !r[0].league || !r[0].league.standings) {
-      body.innerHTML = `<div class="card"><div class="empty">No standings available for this league in ${SEASON}.</div></div>`;
-      return;
-    }
+    if (r.length === 0 || !r[0].league || !r[0].league.standings) { body.innerHTML = `<div class="card"><div class="empty">No standings available for this league in ${SEASON}.</div></div>`; return; }
     const league = r[0].league;
     const groups = league.standings;
     const tablesHtml = groups.map((group, gi) => {
@@ -721,14 +704,7 @@ async function loadStandings(leagueId) {
       const rowsHtml = group.map(row => {
         const form = (row.form || '').slice(-5).split('');
         const formHtml = form.map(f => `<span class="form-dot ${f}">${f}</span>`).join('');
-        return `<tr>
-          <td class="rank">${row.rank}</td>
-          <td class="team"><button onclick="openTeamModal(${row.team.id}, ${leagueId}, ${SEASON})"><img src="${escapeHtml(row.team.logo)}" alt="" onerror="this.style.display='none'"/>${escapeHtml(row.team.name)}</button></td>
-          <td>${row.all.played}</td><td>${row.all.win}</td><td>${row.all.draw}</td><td>${row.all.lose}</td>
-          <td>${row.all.goals.for}</td><td>${row.all.goals.against}</td><td>${row.goalsDiff}</td>
-          <td class="pts">${row.points}</td>
-          <td><div class="form-dots">${formHtml}</div></td>
-        </tr>`;
+        return `<tr><td class="rank">${row.rank}</td><td class="team"><button onclick="openTeamModal(${row.team.id}, ${leagueId}, ${SEASON})"><img src="${escapeHtml(row.team.logo)}" alt="" onerror="this.style.display='none'"/>${escapeHtml(row.team.name)}</button></td><td>${row.all.played}</td><td>${row.all.win}</td><td>${row.all.draw}</td><td>${row.all.lose}</td><td>${row.all.goals.for}</td><td>${row.all.goals.against}</td><td>${row.goalsDiff}</td><td class="pts">${row.points}</td><td><div class="form-dots">${formHtml}</div></td></tr>`;
       }).join('');
       return `${groupLabel}<div style="overflow-x:auto"><table class="standings"><thead><tr><th>#</th><th style="text-align:left">Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th><th>Form</th></tr></thead><tbody>${rowsHtml}</tbody></table></div>`;
     }).join('');
@@ -736,11 +712,7 @@ async function loadStandings(leagueId) {
   } catch (err) { body.innerHTML = `<div class="error">Couldn't load standings. ${escapeHtml(err.message)}</div>`; }
 }
 
-/* ============================================================
-   STATS
-============================================================ */
 let statsInited = false, statsLeagueId = 39, statsStat = 'goals', playerSearchTimer = null;
-
 function initStats() {
   if (statsInited) return;
   statsInited = true;
@@ -766,7 +738,6 @@ function initStats() {
   });
   loadLeaders();
 }
-
 async function searchPlayers(q) {
   const out = $('#stats-player-results');
   out.innerHTML = '<div class="loading"><span class="spinner"></span></div>';
@@ -783,7 +754,6 @@ async function searchPlayers(q) {
     }).join('');
   } catch (err) { out.innerHTML = `<div class="error">Search failed. ${escapeHtml(err.message)}</div>`; }
 }
-
 async function loadLeaders() {
   const out = $('#stats-leaders');
   out.innerHTML = '<div class="loading"><span class="spinner"></span></div>';
@@ -795,20 +765,13 @@ async function loadLeaders() {
     out.innerHTML = players.slice(0, 20).map((p,i) => {
       const pl = p.player;
       const st = (p.statistics && p.statistics[0]) || {};
-      const val = statsStat === 'goals' ? (st.goals?.total ?? 0)
-        : statsStat === 'assists' ? (st.goals?.assists ?? 0)
-        : statsStat === 'yellowcards' ? (st.cards?.yellow ?? 0)
-        : (st.cards?.red ?? 0);
+      const val = statsStat === 'goals' ? (st.goals?.total ?? 0) : statsStat === 'assists' ? (st.goals?.assists ?? 0) : statsStat === 'yellowcards' ? (st.cards?.yellow ?? 0) : (st.cards?.red ?? 0);
       return `<div class="scorer-row" onclick="openPlayerModal(${pl.id})"><div class="scorer-rank">${i+1}</div><img src="${escapeHtml(pl.photo)}" alt="" onerror="this.style.display='none'"/><div class="scorer-info"><div class="name">${escapeHtml(pl.name)}</div><div class="team">${escapeHtml(st.team?.name || '')}</div></div><div class="scorer-stat ${statClass}">${val}</div></div>`;
     }).join('');
   } catch (err) { out.innerHTML = `<div class="error">Couldn't load leaders. ${escapeHtml(err.message)}</div>`; }
 }
 
-/* ============================================================
-   NEWS
-============================================================ */
 let newsInited = false, currentNewsQuery = 'football';
-
 function initNews() {
   if (newsInited) return;
   newsInited = true;
@@ -821,79 +784,57 @@ function initNews() {
   });
   loadNews();
 }
-
+function renderNewsHero(a) {
+  const img = a.image ? `<img src="${escapeHtml(a.image)}" alt="" onerror="this.style.display='none'"/>` : '';
+  return `<a class="news-hero" href="${escapeHtml(a.url)}" target="_blank" rel="noopener noreferrer"><div class="news-hero-grid">${img}<div class="body"><span class="tag">Top Story</span><div class="title">${escapeHtml(a.title || '')}</div>${a.description ? `<div class="desc">${escapeHtml(a.description)}</div>` : ''}<div class="meta">${escapeHtml(a.source?.name || 'News')} · ${fmtRelDate(a.publishedAt)}</div></div></div></a>`;
+}
 function renderNewsCard(a) {
   return `<article class="news-card"><a href="${escapeHtml(a.url)}" target="_blank" rel="noopener noreferrer">${a.image ? `<img src="${escapeHtml(a.image)}" alt="" onerror="this.style.display='none'"/>` : ''}<div class="news-body"><div class="news-source">${escapeHtml(a.source?.name || 'News')}</div><div class="news-title">${escapeHtml(a.title || '')}</div>${a.description ? `<div class="news-desc">${escapeHtml(a.description)}</div>` : ''}<div class="news-date">${fmtRelDate(a.publishedAt)}</div></div></a></article>`;
 }
-
 async function loadNews() {
+  const hero = $('#news-hero-slot');
   const grid = $('#news-grid');
+  hero.innerHTML = '';
   grid.innerHTML = '<div class="loading"><span class="spinner"></span></div>';
   try {
     const data = await apiGet(`/api/news?q=${encodeURIComponent(currentNewsQuery)}&max=10`);
     const arts = data.articles || [];
     if (arts.length === 0) { grid.innerHTML = `<div class="empty">No articles found.</div>`; return; }
-    grid.innerHTML = arts.map(renderNewsCard).join('');
+    hero.innerHTML = renderNewsHero(arts[0]);
+    grid.innerHTML = arts.slice(1).map(renderNewsCard).join('');
   } catch (err) { grid.innerHTML = `<div class="error">News unavailable. ${escapeHtml(err.message)}</div>`; }
 }
 
-/* ============================================================
-   MODALS
-============================================================ */
 const modalBackdrop = $('#modal-backdrop');
 const modalTitle = $('#modal-title');
 const modalBody = $('#modal-body');
 const modalTabs = $('#modal-tabs');
-
-function openModal(title) {
-  modalTitle.textContent = title;
-  modalTabs.innerHTML = ''; modalTabs.style.display = 'none';
-  modalBody.innerHTML = '<div class="loading"><span class="spinner"></span></div>';
-  modalBackdrop.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeModal() {
-  modalBackdrop.classList.remove('open');
-  document.body.style.overflow = '';
-}
+function openModal(title) { modalTitle.textContent = title; modalTabs.innerHTML = ''; modalTabs.style.display = 'none'; modalBody.innerHTML = '<div class="loading"><span class="spinner"></span></div>'; modalBackdrop.classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeModal() { modalBackdrop.classList.remove('open'); document.body.style.overflow = ''; }
 $('#modal-close').addEventListener('click', closeModal);
 modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) closeModal(); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modalBackdrop.classList.contains('open')) closeModal(); });
 
-/* MATCH MODAL */
 async function openMatchModal(fixtureId) {
   openModal('Match Details');
   try {
-    const [fxData, detailData] = await Promise.all([
-      apiGet(`/api/fixtures?id=${fixtureId}`),
-      apiGet(`/api/fixture-details?fixture=${fixtureId}`),
-    ]);
+    const [fxData, detailData] = await Promise.all([apiGet(`/api/fixtures?id=${fixtureId}`), apiGet(`/api/fixture-details?fixture=${fixtureId}`)]);
     const fx = (fxData.response || [])[0];
     if (!fx) { modalBody.innerHTML = `<div class="empty">Match not found.</div>`; return; }
     renderMatchModal(fx, detailData);
   } catch (err) { modalBody.innerHTML = `<div class="error">Couldn't load match. ${escapeHtml(err.message)}</div>`; }
 }
-
 function renderMatchModal(fx, detail) {
   const h = fx.teams.home, a = fx.teams.away;
   const short = fx.fixture.status.short;
   const live = isLiveStatus(short), done = isFinishedStatus(short);
   const hs = fx.goals.home, as = fx.goals.away;
   let scoreLine, status;
-  if (live) {
-    scoreLine = `${hs ?? 0} <span style="color:var(--text-dim)">-</span> ${as ?? 0}`;
-    status = `<span class="match-status live">● LIVE ${fx.fixture.status.elapsed ? fx.fixture.status.elapsed + "'" : short}</span>`;
-  } else if (done) {
-    scoreLine = `${hs ?? 0} <span style="color:var(--text-dim)">-</span> ${as ?? 0}`;
-    status = `<span class="match-status">Full Time · ${fmtRelDate(fx.fixture.date)}</span>`;
-  } else {
-    scoreLine = `<span class="vs">vs</span>`;
-    status = `<span class="match-status">Kick off · ${fmtRelDate(fx.fixture.date)}</span>`;
-  }
+  if (live) { scoreLine = `${hs ?? 0} <span style="color:var(--text-dim)">-</span> ${as ?? 0}`; status = `<span class="match-status live">● LIVE ${fx.fixture.status.elapsed ? fx.fixture.status.elapsed + "'" : short}</span>`; }
+  else if (done) { scoreLine = `${hs ?? 0} <span style="color:var(--text-dim)">-</span> ${as ?? 0}`; status = `<span class="match-status">Full Time · ${fmtRelDate(fx.fixture.date)}</span>`; }
+  else { scoreLine = `<span class="vs">vs</span>`; status = `<span class="match-status">Kick off · ${fmtRelDate(fx.fixture.date)}</span>`; }
   modalTitle.textContent = fx.league.name;
-
   const headerHtml = `<div class="match-header"><div class="match-teams"><div class="match-team"><img src="${escapeHtml(h.logo)}" alt="" onerror="this.style.display='none'"/><div class="name">${escapeHtml(h.name)}</div></div><div class="match-scoreline">${scoreLine}</div><div class="match-team"><img src="${escapeHtml(a.logo)}" alt="" onerror="this.style.display='none'"/><div class="name">${escapeHtml(a.name)}</div></div></div>${status}<div style="font-size:12px;color:var(--text-dimmer);margin-top:10px">${escapeHtml(fx.fixture.venue?.name || '')}${fx.fixture.venue?.city ? ' · ' + escapeHtml(fx.fixture.venue.city) : ''}${fx.fixture.referee ? ' · Referee: ' + escapeHtml(fx.fixture.referee) : ''}</div></div>`;
-
   const tabs = [];
   const events = detail?.events?.response || [];
   const lineups = detail?.lineups?.response || [];
@@ -901,15 +842,9 @@ function renderMatchModal(fx, detail) {
   if (events.length > 0) tabs.push({key:'events', label:'Events'});
   if (lineups.length > 0) tabs.push({key:'lineups', label:'Lineups'});
   if (stats.length > 0) tabs.push({key:'stats', label:'Stats'});
-
-  if (tabs.length === 0) {
-    modalBody.innerHTML = headerHtml + `<div class="empty" style="margin-top:20px">Match details will appear here once the game kicks off.</div>`;
-    return;
-  }
-
+  if (tabs.length === 0) { modalBody.innerHTML = headerHtml + `<div class="empty" style="margin-top:20px">Match details will appear here once the game kicks off.</div>`; return; }
   modalTabs.style.display = 'flex';
   modalTabs.innerHTML = tabs.map((t,i) => `<button class="modal-tab ${i===0?'active':''}" data-tab="${t.key}">${t.label}</button>`).join('');
-
   function renderTab(key) {
     if (key === 'events') {
       return events.map(ev => {
@@ -940,7 +875,6 @@ function renderMatchModal(fx, detail) {
     }
     return '';
   }
-
   modalBody.innerHTML = headerHtml + `<div id="match-tab-content" style="margin-top:16px">${renderTab(tabs[0].key)}</div>`;
   $$('.modal-tab', modalTabs).forEach(t => {
     t.addEventListener('click', () => {
@@ -950,7 +884,6 @@ function renderMatchModal(fx, detail) {
   });
 }
 
-/* TEAM MODAL */
 async function openTeamModal(teamId, leagueId, season) {
   openModal('Team Profile');
   try {
@@ -961,13 +894,11 @@ async function openTeamModal(teamId, leagueId, season) {
     const team = teamResp.team, venue = teamResp.venue;
     const st = data.stats?.response;
     modalTitle.textContent = team.name;
-
     let statsHtml = '';
     if (st) {
       const formHtml = st.form ? `<div style="margin-bottom:16px"><strong>Recent form:</strong> <span class="form-dots" style="display:inline-flex;margin-left:8px">${st.form.slice(-10).split('').map(f=>`<span class="form-dot ${f}">${f}</span>`).join('')}</span></div>` : '';
       statsHtml = `<h3 style="font-size:18px;margin:10px 0">Season ${st.league.season} — ${escapeHtml(st.league.name)}</h3><div class="info-grid"><div class="info-cell"><div class="label">Played</div><div class="value">${st.fixtures.played.total}</div></div><div class="info-cell"><div class="label">Won</div><div class="value">${st.fixtures.wins.total}</div></div><div class="info-cell"><div class="label">Drawn</div><div class="value">${st.fixtures.draws.total}</div></div><div class="info-cell"><div class="label">Lost</div><div class="value">${st.fixtures.loses.total}</div></div><div class="info-cell"><div class="label">Goals For</div><div class="value">${st.goals.for.total.total}</div></div><div class="info-cell"><div class="label">Goals Against</div><div class="value">${st.goals.against.total.total}</div></div><div class="info-cell"><div class="label">Clean Sheets</div><div class="value">${st.clean_sheet.total}</div></div><div class="info-cell"><div class="label">Failed To Score</div><div class="value">${st.failed_to_score.total}</div></div></div>${formHtml}`;
     }
-
     const venueCells = [
       venue?.name ? `<div class="info-cell"><div class="label">Stadium</div><div class="value" style="font-size:14px">${escapeHtml(venue.name)}</div></div>` : '',
       venue?.city ? `<div class="info-cell"><div class="label">City</div><div class="value" style="font-size:14px">${escapeHtml(venue.city)}</div></div>` : '',
@@ -975,13 +906,11 @@ async function openTeamModal(teamId, leagueId, season) {
       venue?.surface ? `<div class="info-cell"><div class="label">Surface</div><div class="value" style="font-size:14px">${escapeHtml(venue.surface)}</div></div>` : '',
       team.code ? `<div class="info-cell"><div class="label">Code</div><div class="value">${escapeHtml(team.code)}</div></div>` : '',
     ].filter(Boolean).join('');
-
     modalBody.innerHTML = `<div class="detail-head"><img src="${escapeHtml(team.logo)}" alt="" onerror="this.style.display='none'"/><div class="meta"><h3>${escapeHtml(team.name)}</h3><div class="sub">${escapeHtml(team.country || '')}${team.founded ? ' · Founded ' + team.founded : ''}${team.national ? ' · National team' : ''}</div></div></div><div class="info-grid">${venueCells}</div>${statsHtml}`;
   } catch (err) { modalBody.innerHTML = `<div class="error">Couldn't load team. ${escapeHtml(err.message)}</div>`; }
 }
 window.openTeamModal = openTeamModal;
 
-/* PLAYER MODAL */
 async function openPlayerModal(playerId) {
   openModal('Player Profile');
   try {
@@ -991,33 +920,17 @@ async function openPlayerModal(playerId) {
     const p = resp.player;
     const sts = resp.statistics || [];
     modalTitle.textContent = p.name;
-
-    const agg = sts.reduce((acc, st) => {
-      acc.apps += st.games?.appearences ?? 0;
-      acc.goals += st.goals?.total ?? 0;
-      acc.assists += st.goals?.assists ?? 0;
-      acc.yellows += st.cards?.yellow ?? 0;
-      acc.reds += st.cards?.red ?? 0;
-      acc.mins += st.games?.minutes ?? 0;
-      return acc;
-    }, {apps:0, goals:0, assists:0, yellows:0, reds:0, mins:0});
-
+    const agg = sts.reduce((acc, st) => { acc.apps += st.games?.appearences ?? 0; acc.goals += st.goals?.total ?? 0; acc.assists += st.goals?.assists ?? 0; acc.yellows += st.cards?.yellow ?? 0; acc.reds += st.cards?.red ?? 0; acc.mins += st.games?.minutes ?? 0; return acc; }, {apps:0, goals:0, assists:0, yellows:0, reds:0, mins:0});
     const perLeague = sts.map(st => `<div class="info-cell" style="grid-column: span 2"><div class="label" style="display:flex;align-items:center;gap:6px">${st.league.logo ? `<img src="${escapeHtml(st.league.logo)}" alt="" style="width:14px;height:14px;object-fit:contain"/>` : ''}${escapeHtml(st.league.name)}</div><div class="value" style="font-size:13px;margin-top:6px">${escapeHtml(st.team?.name || '')} · ${st.games?.appearences ?? 0} apps · ${st.goals?.total ?? 0}G ${st.goals?.assists ?? 0}A${st.games?.rating ? ` · ⭐ ${parseFloat(st.games.rating).toFixed(2)}` : ''}</div></div>`).join('');
-
     const birthLine = p.birth?.date ? `<div class="sub" style="margin-top:4px">Born ${escapeHtml(p.birth.date)}${p.birth.place ? ' in ' + escapeHtml(p.birth.place) : ''}${p.birth.country ? ', ' + escapeHtml(p.birth.country) : ''}</div>` : '';
     const injuredCell = p.injured ? `<div class="info-cell" style="border-color:var(--danger)"><div class="label">Status</div><div class="value" style="color:var(--danger)">Injured</div></div>` : '';
-
     modalBody.innerHTML = `<div class="detail-head"><img class="player-photo" src="${escapeHtml(p.photo)}" alt="" onerror="this.style.display='none'"/><div class="meta"><h3>${escapeHtml(p.name)}</h3><div class="sub">${p.firstname ? escapeHtml(p.firstname) + ' ' + escapeHtml(p.lastname || '') : ''}${p.age ? ' · Age ' + p.age : ''}${p.nationality ? ' · ' + escapeHtml(p.nationality) : ''}${p.height ? ' · ' + escapeHtml(p.height) : ''}${p.weight ? ' · ' + escapeHtml(p.weight) : ''}</div>${birthLine}</div></div><div class="info-grid"><div class="info-cell"><div class="label">Appearances</div><div class="value">${agg.apps}</div></div><div class="info-cell"><div class="label">Goals</div><div class="value">${agg.goals}</div></div><div class="info-cell"><div class="label">Assists</div><div class="value">${agg.assists}</div></div><div class="info-cell"><div class="label">Minutes</div><div class="value">${agg.mins.toLocaleString()}</div></div><div class="info-cell"><div class="label">Yellow Cards</div><div class="value">${agg.yellows}</div></div><div class="info-cell"><div class="label">Red Cards</div><div class="value">${agg.reds}</div></div>${injuredCell}</div>${sts.length ? `<h3 style="font-size:18px;margin:18px 0 10px">By competition (${SEASON})</h3><div class="info-grid">${perLeague}</div>` : ''}`;
   } catch (err) { modalBody.innerHTML = `<div class="error">Couldn't load player. ${escapeHtml(err.message)}</div>`; }
 }
 window.openPlayerModal = openPlayerModal;
 
-/* ============================================================
-   SETTINGS DRAWER
-============================================================ */
 const drawer = $('#drawer');
 const drawerBackdrop = $('#drawer-backdrop');
-
 function openDrawer() { drawer.classList.add('open'); drawerBackdrop.classList.add('open'); }
 function closeDrawer() { drawer.classList.remove('open'); drawerBackdrop.classList.remove('open'); }
 $('#open-settings').addEventListener('click', openDrawer);
@@ -1026,20 +939,12 @@ drawerBackdrop.addEventListener('click', closeDrawer);
 
 const notifToggle = $('#notif-toggle');
 const notifStatus = $('#notif-status');
-
 function refreshNotifUI() {
   const stored = localStorage.getItem('bk_notifs') === 'on';
   const perm = (typeof Notification !== 'undefined') ? Notification.permission : 'denied';
-  if (perm === 'granted' && stored) {
-    notifToggle.classList.add('on');
-    notifStatus.textContent = "On — you'll get match alerts";
-  } else if (perm === 'denied') {
-    notifToggle.classList.remove('on');
-    notifStatus.textContent = 'Blocked in browser settings';
-  } else {
-    notifToggle.classList.remove('on');
-    notifStatus.textContent = 'Off';
-  }
+  if (perm === 'granted' && stored) { notifToggle.classList.add('on'); notifStatus.textContent = "On — you'll get match alerts"; }
+  else if (perm === 'denied') { notifToggle.classList.remove('on'); notifStatus.textContent = 'Blocked in browser settings'; }
+  else { notifToggle.classList.remove('on'); notifStatus.textContent = 'Off'; }
 }
 notifToggle.addEventListener('click', async () => {
   if (typeof Notification === 'undefined') { notifStatus.textContent = 'Not supported on this browser'; return; }
@@ -1047,10 +952,7 @@ notifToggle.addEventListener('click', async () => {
   if (isOn) { localStorage.setItem('bk_notifs', 'off'); refreshNotifUI(); return; }
   let perm = Notification.permission;
   if (perm === 'default') perm = await Notification.requestPermission();
-  if (perm === 'granted') {
-    localStorage.setItem('bk_notifs', 'on');
-    new Notification('Ball Knowledge', { body: 'Match alerts are on ⚽', icon: '/BK.png' });
-  }
+  if (perm === 'granted') { localStorage.setItem('bk_notifs', 'on'); new Notification('Ball Knowledge', { body: 'Match alerts are on ⚽', icon: '/BK.png' }); }
   refreshNotifUI();
 });
 refreshNotifUI();
@@ -1059,7 +961,6 @@ const emailForm = $('#email-form');
 const emailInput = $('#email-input');
 const emailSubmit = $('#email-submit');
 const emailMsg = $('#email-msg');
-
 emailForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const email = emailInput.value.trim();
@@ -1068,39 +969,19 @@ emailForm.addEventListener('submit', async (e) => {
   emailMsg.textContent = 'Sending...';
   emailMsg.className = 'email-msg';
   try {
-    const r = await fetch('/api/subscribe', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ email }),
-    });
+    const r = await fetch('/api/subscribe', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ email }) });
     const data = await r.json();
-    if (r.ok && data.ok) {
-      emailMsg.textContent = "✓ You're on the list. Check your inbox soon.";
-      emailMsg.className = 'email-msg ok';
-      emailInput.value = '';
-      localStorage.setItem('bk_email', email);
-    } else {
-      emailMsg.textContent = data.error || "Couldn't subscribe. Try again.";
-      emailMsg.className = 'email-msg err';
-    }
-  } catch (err) {
-    emailMsg.textContent = 'Network error. Try again.';
-    emailMsg.className = 'email-msg err';
-  } finally {
-    emailSubmit.disabled = false;
-  }
+    if (r.ok && data.ok) { emailMsg.textContent = "✓ You're on the list. Check your inbox soon."; emailMsg.className = 'email-msg ok'; emailInput.value = ''; localStorage.setItem('bk_email', email); }
+    else { emailMsg.textContent = data.error || "Couldn't subscribe. Try again."; emailMsg.className = 'email-msg err'; }
+  } catch (err) { emailMsg.textContent = 'Network error. Try again.'; emailMsg.className = 'email-msg err'; }
+  finally { emailSubmit.disabled = false; }
 });
-
 const storedEmail = localStorage.getItem('bk_email');
 if (storedEmail) emailInput.placeholder = storedEmail;
 
-/* ============================================================
-   BOOT
-============================================================ */
 $('#year').textContent = new Date().getFullYear();
 routeTo(location.hash.replace('#','') || 'home');
 </script>
-
 
 </body>
 </html>
